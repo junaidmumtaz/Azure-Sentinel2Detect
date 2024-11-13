@@ -1,0 +1,11 @@
+// Query to analyze ChatGPT usage over the past 90 days.
+// Author : Junaid Mumtaz
+// Version 1.0
+
+McasShadowItReporting
+    | where TimeGenerated >= ago(90d)
+    | where AppCategory == "Generative AI"
+    | where AppName == "OpenAI ChatGPT"
+    | summarize UsageCount = count() by EnrichedUserName, MachineName, AppName
+    | project EnrichedUserName, MachineName, AppName, UsageCount
+    | order by UsageCount desc
