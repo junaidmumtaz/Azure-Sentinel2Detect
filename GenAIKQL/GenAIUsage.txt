@@ -1,0 +1,9 @@
+// Query to analyze Generative AI usage over the past 7 days
+//McasShadowItReporting analyzes shadow IT activities using data from Microsoft Defender for Cloud Apps Connector.
+McasShadowItReporting
+    | where TimeGenerated >= ago(90d)
+    | where AppCategory == "Generative AI"
+    | summarize UsageCount = count() by bin(TimeGenerated, 1d), AppName
+    | order by TimeGenerated asc
+    | project TimeGenerated, AppName, UsageCount
+    | render barchart 
