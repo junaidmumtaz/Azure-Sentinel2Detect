@@ -1,0 +1,19 @@
+// Detects large data uploads/downloads associated with Generative AI tools like OpenAI ChatGPT
+// Author : Junaid Mumtaz
+// Version 1.0
+
+McasShadowItReporting
+    | where TimeGenerated >= ago(90d)
+    | where AppCategory == "Generative AI"
+    | where AppName in ('OpenAI ChatGPT','Microsoft Copilot')
+    | where isnotempty(TotalBytes)
+    | where TotalBytes >= 1073741824
+    | project
+        TimeGenerated,
+        EnrichedUserName,
+        MachineName,
+        IpAddress,
+        UploadedBytes,
+        DownloadedBytes,
+        TotalBytes,
+        TotalGigabits = (TotalBytes * 8) / 1000000000
