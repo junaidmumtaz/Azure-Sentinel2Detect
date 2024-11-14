@@ -1,0 +1,1 @@
+ // More GenAI KQL examples are coming soon 
